@@ -17,7 +17,8 @@ const Contact = () => {
     try {
       // Owner mail
       await emailjs.send(
-        "service_p2aompf",
+        // "service_p2aompf",
+        "service_gu6hcdr",
         "template_668fmzq",
         {
           from_name: form.name,
@@ -30,7 +31,8 @@ const Contact = () => {
 
       // Client auto reply
       await emailjs.send(
-        "service_p2aompf",
+        // "service_p2aompf",
+        "service_gu6hcdr",
         "template_2ifb2e8",
         {
           from_name: form.name,

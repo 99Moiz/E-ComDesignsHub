@@ -4,7 +4,7 @@ import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 
 const values = [
-  { icon: <Lightbulb size={22} />, title: "Innovation", description: "Pushing boundaries with creative solutions and emerging technologies." },
+  { icon: <Lightbulb size={22} />, title: "Innovation", description: "Pushing  with creative solutions and emerging technologies." },
   { icon: <Users size={22} />, title: "Collaboration", description: "Working closely with clients as true partners in every project." },
   { icon: <Award size={22} />, title: "Excellence", description: "Delivering premium quality in every pixel and line of code." },
   { icon: <Heart size={22} />, title: "Passion", description: "Driven by genuine love for craft and meaningful digital work." },

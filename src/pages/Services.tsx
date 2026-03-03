@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
-import { Globe, Palette, Search, Megaphone, Code, Zap, Shield, BarChart3 } from "lucide-react";
+import { Globe, Palette, Search, Megaphone, Code, Zap, Shield, BarChart3, Film } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 
 const services = [
   { icon: <Globe size={28} />, title: "Web Development", description: "Custom-built responsive websites and web applications using modern frameworks. From corporate sites to complex platforms, we deliver scalable, performant solutions.", features: ["React & Next.js", "Custom CMS", "E-Commerce", "Progressive Web Apps"] },
   { icon: <Palette size={28} />, title: "UI/UX Design", description: "Human-centered design that balances beauty with usability. We craft intuitive interfaces that delight users and drive conversions.", features: ["User Research", "Wireframing", "Prototyping", "Design Systems"] },
+  { icon: <Palette size={28} />, title: "Graphic Design", description: "Creative visual solutions that strengthen brand identity and communication. From logos to full-scale marketing materials, we craft designs that are strategic, consistent, and visually impactful.", features: ["Logo Design", "Brand Identity", "Banners & Social Media Creatives", "Print & Marketing Materials"] },
+  { icon: <Film size={28} />, title: "2D & 3D Animation", description: "High-quality motion visuals that bring ideas to life. We create engaging 2D and 3D animations for marketing, explainer videos, product showcases, and digital campaigns.", features: ["2D Explainer Videos", "3D Modeling & Rendering", "Product Animation", "Motion Graphics"] },
   { icon: <Search size={28} />, title: "SEO Optimization", description: "Data-driven SEO strategies that improve your search rankings and drive qualified organic traffic to grow your business.", features: ["Technical SEO", "Content Strategy", "Link Building", "Analytics"] },
   { icon: <Megaphone size={28} />, title: "Digital Marketing", description: "Comprehensive digital marketing campaigns across multiple channels to increase brand awareness and generate leads.", features: ["Social Media", "PPC Campaigns", "Email Marketing", "Content Marketing"] },
   { icon: <Code size={28} />, title: "Custom Software", description: "Bespoke software solutions tailored to your unique workflows, integrations, and business requirements.", features: ["API Development", "Automation", "Integrations", "Cloud Solutions"] },

@@ -1,42 +1,76 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 
-const categories = ["All", "Web Development", "UI/UX Design", "Marketing", "Branding"];
-
-const projects = [
-  { title: "TechFlow Dashboard", category: "Web Development", description: "A comprehensive SaaS analytics dashboard with real-time data visualization.", color: "from-primary/20 to-primary/5" },
-  { title: "Luxe Fashion Store", category: "Web Development", description: "Premium e-commerce platform with immersive product showcasing.", color: "from-emerald-900/30 to-emerald-900/10" },
-  { title: "FinPro Banking App", category: "UI/UX Design", description: "Mobile banking redesign focused on accessibility and user trust.", color: "from-primary/15 to-transparent" },
-  { title: "GreenLeaf Organics", category: "Branding", description: "Complete brand identity for an organic food delivery startup.", color: "from-green-800/20 to-green-900/10" },
-  { title: "MetaPulse Campaign", category: "Marketing", description: "Multi-channel digital campaign achieving 300% ROI for a tech startup.", color: "from-emerald-800/20 to-emerald-900/5" },
-  { title: "CloudSync Platform", category: "Web Development", description: "Enterprise cloud management platform with advanced security features.", color: "from-primary/20 to-primary/5" },
-  { title: "ArtVision Gallery", category: "UI/UX Design", description: "Interactive digital gallery experience for contemporary artists.", color: "from-green-700/20 to-green-900/10" },
-  { title: "NovaBrand Identity", category: "Branding", description: "Strategic brand refresh for a Fortune 500 technology company.", color: "from-emerald-900/20 to-primary/5" },
-];
-
 const Portfolio = () => {
+  const [projects, setProjects] = useState([]);
+  const [categories, setCategories] = useState(["All"]);
   const [active, setActive] = useState("All");
-  const filtered = active === "All" ? projects : projects.filter((p) => p.category === active);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const projRes = await fetch(
+
+          "http://ecomdesignshub.runasp.net/api/ProjectApi/get"
+          // "https://localhost:7230/api/projectApi/get"
+        );
+        if (!projRes.ok) {
+  throw new Error("Failed to fetch projects");
+}
+        const projData = await projRes.json();
+
+        const catRes = await fetch(
+           "http://ecomdesignshub.runasp.net/api/ProjectApi/GetCategory"
+          // "https://localhost:7230/api/projectApi/GetCategory"
+        );
+        const catData = await catRes.json();
+// console.log("Fetched Projects:", projData);
+// console.log("Fetched Categories:", catData);
+        setProjects(projData);
+        setCategories([
+          "All",
+          ...catData.map((c) => c.name)
+        ]);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("API Error:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const filtered =
+    active === "All"
+      ? projects
+      : projects.filter((p) => p.categoryName === active);
 
   return (
     <Layout>
       <section className="section-padding">
         <div className="container mx-auto">
+
+          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="max-w-3xl mb-12"
           >
-            <span className="text-primary text-sm font-semibold uppercase tracking-wider">Portfolio</span>
+            <span className="text-primary text-sm font-semibold uppercase tracking-wider">
+              Portfolio
+            </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mt-3 mb-6">
               Our <span className="text-gradient">Best Work</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              A curated collection of projects that showcase our expertise and commitment to excellence.
+              A curated collection of projects that showcase our expertise.
             </p>
           </motion.div>
 
@@ -49,7 +83,7 @@ const Portfolio = () => {
                   onClick={() => setActive(cat)}
                   className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
                     active === cat
-                      ? "bg-primary text-primary-foreground glow-green-sm"
+                      ? "bg-primary text-primary-foreground"
                       : "bg-secondary text-secondary-foreground hover:bg-surface-hover"
                   }`}
                 >
@@ -59,40 +93,78 @@ const Portfolio = () => {
             </div>
           </ScrollReveal>
 
+          {/* Loading */}
+          {loading && (
+            <div className="text-center py-20">
+              Loading projects...
+            </div>
+          )}
+
           {/* Projects Grid */}
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((project, i) => (
-                <motion.div
-                  key={project.title}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                >
+          {!loading && (
+            <motion.div
+              layout
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+              <AnimatePresence mode="popLayout">
+                {filtered.map((project, i) => (
                   <motion.div
-                    whileHover={{ y: -6 }}
-                    className="group relative rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all duration-300"
+                    key={project.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
                   >
-                    <div className={`h-48 md:h-56 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
-                      <span className="font-heading font-bold text-2xl text-foreground/20 group-hover:text-foreground/40 transition-colors">
-                        {project.title.split(" ")[0]}
-                      </span>
-                    </div>
-                    <div className="p-6">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs text-primary font-medium">{project.category}</span>
-                        <ExternalLink size={14} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                    <motion.div
+                      whileHover={{ y: -6 }}
+                      className="group relative rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all duration-300"
+                    >
+
+                      {/* Image */}
+                      <div className="h-48 md:h-56 overflow-hidden">
+                        <img
+                          src={`http://ecomdesignshub.runasp.net${project.imgUrl}`}
+                          alt={project.title}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <h3 className="font-heading font-semibold text-lg mb-2">{project.title}</h3>
-                      <p className="text-sm text-muted-foreground">{project.description}</p>
-                    </div>
+
+                      {/* Content */}
+                      <div className="p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs text-primary font-medium">
+                            {project.categoryName}
+                          </span>
+
+                          <a
+                            href={project.projectUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLink
+                              size={14}
+                              className="text-muted-foreground group-hover:text-primary transition-colors"
+                            />
+                          </a>
+                        </div>
+
+                        <h3 className="font-heading font-semibold text-lg mb-2">
+                          {project.title}
+                        </h3>
+
+                        <p className="text-sm text-muted-foreground">
+                          {project.description}
+                        </p>
+                      </div>
+
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
+
         </div>
       </section>
     </Layout>
@@ -100,3 +172,118 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import { useState } from "react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { ExternalLink } from "lucide-react";
+// import Layout from "@/components/Layout";
+// import ScrollReveal from "@/components/ScrollReveal";
+
+// const categories = ["All", "Web Development", "UI/UX Design", "Marketing", "Branding"];
+
+// const projects = [
+//   { title: "TechFlow Dashboard", category: "Web Development", description: "A comprehensive SaaS analytics dashboard with real-time data visualization.", color: "from-primary/20 to-primary/5" },
+//   { title: "Luxe Fashion Store", category: "Web Development", description: "Premium e-commerce platform with immersive product showcasing.", color: "from-emerald-900/30 to-emerald-900/10" },
+//   { title: "FinPro Banking App", category: "UI/UX Design", description: "Mobile banking redesign focused on accessibility and user trust.", color: "from-primary/15 to-transparent" },
+//   { title: "GreenLeaf Organics", category: "Branding", description: "Complete brand identity for an organic food delivery startup.", color: "from-green-800/20 to-green-900/10" },
+//   { title: "MetaPulse Campaign", category: "Marketing", description: "Multi-channel digital campaign achieving 300% ROI for a tech startup.", color: "from-emerald-800/20 to-emerald-900/5" },
+//   { title: "CloudSync Platform", category: "Web Development", description: "Enterprise cloud management platform with advanced security features.", color: "from-primary/20 to-primary/5" },
+//   { title: "ArtVision Gallery", category: "UI/UX Design", description: "Interactive digital gallery experience for contemporary artists.", color: "from-green-700/20 to-green-900/10" },
+//   { title: "NovaBrand Identity", category: "Branding", description: "Strategic brand refresh for a Fortune 500 technology company.", color: "from-emerald-900/20 to-primary/5" },
+// ];
+
+// const Portfolio = () => {
+//   const [active, setActive] = useState("All");
+//   const filtered = active === "All" ? projects : projects.filter((p) => p.category === active);
+
+//   return (
+//     <Layout>
+//       <section className="section-padding">
+//         <div className="container mx-auto">
+//           <motion.div
+//             initial={{ opacity: 0, y: 30 }}
+//             animate={{ opacity: 1, y: 0 }}
+//             transition={{ duration: 0.7 }}
+//             className="max-w-3xl mb-12"
+//           >
+//             <span className="text-primary text-sm font-semibold uppercase tracking-wider">Portfolio</span>
+//             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mt-3 mb-6">
+//               Our <span className="text-gradient">Best Work</span>
+//             </h1>
+//             <p className="text-lg text-muted-foreground leading-relaxed">
+//               A curated collection of projects that showcase our expertise and commitment to excellence.
+//             </p>
+//           </motion.div>
+
+//           {/* Filters */}
+//           <ScrollReveal>
+//             <div className="flex flex-wrap gap-2 mb-12">
+//               {categories.map((cat) => (
+//                 <button
+//                   key={cat}
+//                   onClick={() => setActive(cat)}
+//                   className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+//                     active === cat
+//                       ? "bg-primary text-primary-foreground glow-green-sm"
+//                       : "bg-secondary text-secondary-foreground hover:bg-surface-hover"
+//                   }`}
+//                 >
+//                   {cat}
+//                 </button>
+//               ))}
+//             </div>
+//           </ScrollReveal>
+
+//           {/* Projects Grid */}
+//           <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//             <AnimatePresence mode="popLayout">
+//               {filtered.map((project, i) => (
+//                 <motion.div
+//                   key={project.title}
+//                   layout
+//                   initial={{ opacity: 0, scale: 0.9 }}
+//                   animate={{ opacity: 1, scale: 1 }}
+//                   exit={{ opacity: 0, scale: 0.9 }}
+//                   transition={{ duration: 0.4, delay: i * 0.05 }}
+//                 >
+//                   <motion.div
+//                     whileHover={{ y: -6 }}
+//                     className="group relative rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all duration-300"
+//                   >
+//                     <div className={`h-48 md:h-56 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
+//                       <span className="font-heading font-bold text-2xl text-foreground/20 group-hover:text-foreground/40 transition-colors">
+//                         {project.title.split(" ")[0]}
+//                       </span>
+//                     </div>
+//                     <div className="p-6">
+//                       <div className="flex items-center justify-between mb-2">
+//                         <span className="text-xs text-primary font-medium">{project.category}</span>
+//                         <ExternalLink size={14} className="text-muted-foreground group-hover:text-primary transition-colors" />
+//                       </div>
+//                       <h3 className="font-heading font-semibold text-lg mb-2">{project.title}</h3>
+//                       <p className="text-sm text-muted-foreground">{project.description}</p>
+//                     </div>
+//                   </motion.div>
+//                 </motion.div>
+//               ))}
+//             </AnimatePresence>
+//           </motion.div>
+//         </div>
+//       </section>
+//     </Layout>
+//   );
+// };
+
+// export default Portfolio;

@@ -27,7 +27,7 @@ const stats = [
 const processSteps = [
   { step: "01", title: "Discovery", description: "We dive deep into your business goals, audience, and market to craft a tailored strategy." },
   { step: "02", title: "Design", description: "Our designers create stunning mockups and prototypes that bring your vision to life." },
-  { step: "03", title: "Develop", description: "We build your project using modern tech stacks ensuring performance, security, and scalability." },
+  { step: "03", title: "Develop", description: "We build your project using modern tech stacks ensuring performance and scalability." },
   { step: "04", title: "Deliver & Support", description: "We launch your project and provide ongoing support to ensure continued success." },
 ];
 
@@ -50,7 +50,7 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      {/* <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <ParticleBackground />
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-background" />
         <img src={heroBanner} alt="E-ComDesignHub Banner" className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none" />
@@ -107,7 +107,93 @@ const Index = () => {
             </motion.div>
           </div>
         </div>
-      </section>
+      </section> */}
+<section className="relative min-h-[70vh] md:min-h-[85vh] lg:min-h-[95vh] flex items-center overflow-hidden">
+  
+  <ParticleBackground />
+
+  {/* Overlay Gradient */}
+  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-background z-0" />
+
+  {/* Responsive Banner Image */}
+  <img
+    src={heroBanner}
+    alt="E-ComDesignHub Banner"
+    className="
+      absolute inset-0 
+      w-full h-full 
+      object-contain md:object-cover 
+      object-center 
+      opacity-20 
+      pointer-events-none
+      z-0
+    "
+  />
+
+  <div className="container mx-auto px-4 relative z-10">
+    <div className="max-w-3xl">
+      
+      {/* Badge */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="mb-6"
+      >
+        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
+          <Zap size={14} /> Artistry & Strategy in Every Design
+        </span>
+      </motion.div>
+
+      {/* Heading */}
+      <motion.h1
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.1 }}
+        className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold leading-tight mb-6"
+      >
+        We Build
+        <br />
+        <span className="text-gradient">Digital Experiences</span>
+        <br />
+        That Matter
+      </motion.h1>
+
+      {/* Paragraph */}
+      <motion.p
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8 leading-relaxed"
+      >
+        Transform your business with premium web solutions, stunning designs, and strategies that deliver measurable results.
+      </motion.p>
+
+      {/* Buttons */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="flex flex-wrap gap-4"
+      >
+        <Link
+          to="/contact"
+          className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity glow-green"
+        >
+          Start a Project <ArrowRight size={18} />
+        </Link>
+
+        <Link
+          to="/portfolio"
+          className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-border text-foreground font-semibold hover:bg-secondary transition-colors"
+        >
+          View Our Work
+        </Link>
+      </motion.div>
+
+    </div>
+  </div>
+</section>
 
       {/* Stats */}
       <section className="section-padding border-y border-border">

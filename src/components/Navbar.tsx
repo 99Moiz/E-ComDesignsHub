@@ -24,9 +24,9 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between h-16 md:h-20 px-4">
         <Link to="/" className="flex items-center gap-2">
-          <img src="/images/logo.jpg" alt="E-Comm Design Hub" className="h-10 w-10 rounded-lg object-cover" />
+          <img src="/images/logo.jpeg" alt="E-Comm Design Hub" className="h-10 w-10 rounded-lg object-cover" />
           <span className="font-heading font-bold text-lg text-foreground">
-            e-com<span className="text-primary">designs</span>hub
+            E-com<span className="text-primary">designs</span>hub
           </span>
         </Link>
 

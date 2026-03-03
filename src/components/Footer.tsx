@@ -9,9 +9,9 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/images/logo.jpg" alt="E-Comm Design Hub" className="h-10 w-10 rounded-lg object-cover" />
+              <img src="/images/logo.jpeg" alt="E-Comm Design Hub" className="h-10 w-10 rounded-lg object-cover" />
               <span className="font-heading font-bold text-lg text-foreground">
-                e-com<span className="text-primary">designs</span>hub
+                E-com<span className="text-primary">designs</span>hub
               </span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -53,9 +53,9 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-semibold text-foreground mb-4">Contact</h4>
             <div className="flex flex-col gap-3">
-              <a href="mailto:ecommercedesignshub@gmail.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href="mailto:support@ecomdesignshub.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
                 <Mail size={14} className="text-primary" />
-                ecommercedesignshub@gmail.com
+                support@ecomdesignshub.com
               </a>
               <div className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin size={14} className="text-primary mt-0.5 shrink-0" />
