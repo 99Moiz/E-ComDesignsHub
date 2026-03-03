@@ -116,7 +116,7 @@ const Contact = () => {
                       </div>
                       <div className="min-w-0">
                         <p className="text-sm font-medium">Email</p>
-                        <p className="text-sm text-muted-foreground break-all">ecommercedesignshub@gmail.com</p>
+                        <p className="text-sm text-muted-foreground break-all">support@ecomdesignshub.com</p>
                       </div>
                     </a>
                     <div className="flex items-start gap-3">
