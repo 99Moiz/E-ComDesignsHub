@@ -15,7 +15,7 @@ const Portfolio = () => {
       try {
         const projRes = await fetch(
 
-          "http://ecomdesignshub.runasp.net/api/ProjectApi/get"
+          "https://ecomdesignshub.runasp.net/api/ProjectApi/get"
           // "https://localhost:7230/api/projectApi/get"
         );
         if (!projRes.ok) {
@@ -24,7 +24,7 @@ const Portfolio = () => {
         const projData = await projRes.json();
 
         const catRes = await fetch(
-           "http://ecomdesignshub.runasp.net/api/ProjectApi/GetCategory"
+           "https://ecomdesignshub.runasp.net/api/ProjectApi/GetCategory"
           // "https://localhost:7230/api/projectApi/GetCategory"
         );
         const catData = await catRes.json();
