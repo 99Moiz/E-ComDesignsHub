@@ -13,28 +13,20 @@ const Portfolio = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const projRes = await fetch(
-
-          "https://ecomdesignshub.runasp.net/api/ProjectApi/get"
-          // "https://localhost:7230/api/projectApi/get"
-        );
-        if (!projRes.ok) {
-  throw new Error("Failed to fetch projects");
-}
-        const projData = await projRes.json();
-
-        const catRes = await fetch(
-           "https://ecomdesignshub.runasp.net/api/ProjectApi/GetCategory"
-          // "https://localhost:7230/api/projectApi/GetCategory"
-        );
-        const catData = await catRes.json();
-// console.log("Fetched Projects:", projData);
-// console.log("Fetched Categories:", catData);
-        setProjects(projData);
-        setCategories([
-          "All",
-          ...catData.map((c) => c.name)
+        const [projRes, catRes] = await Promise.all([
+          fetch("https://ecomdesignshub.runasp.net/api/ProjectApi/get"),
+          fetch("https://ecomdesignshub.runasp.net/api/ProjectApi/GetCategory"),
         ]);
+
+        if (!projRes.ok) {
+          throw new Error("Failed to fetch projects");
+        }
+
+        const projData = await projRes.json();
+        const catData = await catRes.json();
+
+        setProjects(projData);
+        setCategories(["All", ...catData.map((c) => c.name)]);
 
         setLoading(false);
       } catch (error) {
@@ -46,6 +38,26 @@ const Portfolio = () => {
     fetchData();
   }, []);
 
+  const ImageWithSkeleton = ({ src, alt }) => {
+    const [loaded, setLoaded] = useState(false);
+
+    return (
+      <div className="relative h-48 md:h-56 overflow-hidden">
+        {!loaded && (
+          <div className="absolute inset-0 animate-pulse bg-muted"></div>
+        )}
+
+        <img
+          src={src}
+          alt={alt}
+          onLoad={() => setLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      </div>
+    );
+  };
   const filtered =
     active === "All"
       ? projects
@@ -55,7 +67,6 @@ const Portfolio = () => {
     <Layout>
       <section className="section-padding">
         <div className="container mx-auto">
-
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -95,9 +106,7 @@ const Portfolio = () => {
 
           {/* Loading */}
           {loading && (
-            <div className="text-center py-20">
-              Loading projects...
-            </div>
+            <div className="text-center py-20">Loading projects...</div>
           )}
 
           {/* Projects Grid */}
@@ -120,13 +129,11 @@ const Portfolio = () => {
                       whileHover={{ y: -6 }}
                       className="group relative rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all duration-300"
                     >
-
                       {/* Image */}
                       <div className="h-48 md:h-56 overflow-hidden">
-                        <img
-                          src={`http://ecomdesignshub.runasp.net${project.imgUrl}`}
+                        <ImageWithSkeleton
+                          src={`https://ecomdesignshub.runasp.net${project.imgUrl}`}
                           alt={project.title}
-                          className="w-full h-full object-cover"
                         />
                       </div>
 
@@ -157,14 +164,12 @@ const Portfolio = () => {
                           {project.description}
                         </p>
                       </div>
-
                     </motion.div>
                   </motion.div>
                 ))}
               </AnimatePresence>
             </motion.div>
           )}
-
         </div>
       </section>
     </Layout>
@@ -172,18 +177,6 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { useState } from "react";
 // import { motion, AnimatePresence } from "framer-motion";
