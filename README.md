@@ -57,7 +57,45 @@ The development server includes hot reloading for efficient development.
 
 The structure is organized to maintain scalability and separation of concerns.
 
-🚀 Deployment
+� EmailJS Setup for Job Applications
+
+The Careers page includes job application functionality with email notifications. To set up email notifications, you need to create EmailJS templates:
+
+1. **Company Notification Template** (`template_job_application`):
+   - Subject: `New Job Application: {{job_title}}`
+   - Body:
+     ```
+     New job application received!
+
+     Position: {{job_title}}
+     Applicant: {{applicant_name}}
+     Email: {{applicant_email}}
+     Phone: {{applicant_phone}}
+     Experience: {{experience_years}} years
+     Cover Letter: {{cover_letter}}
+     Application Date: {{application_date}}
+
+     Please review the application in the admin panel.
+     ```
+
+2. **Applicant Confirmation Template** (`template_job_application_confirm`):
+   - To: `{{to_email}}`
+   - Subject: `Application Received - {{job_title}}`
+   - Body:
+     ```
+     Dear {{to_name}},
+
+     Thank you for applying for the {{job_title}} position at {{company_name}}!
+
+     We have received your application and will review it carefully. Our team will contact you within 3-5 business days with an update on your application status.
+
+     Best regards,
+     {{company_name}} Hiring Team
+     ```
+
+Make sure your EmailJS service is properly configured with the correct email addresses for sending and receiving notifications.
+
+�🚀 Deployment
 
 To deploy this project:
 

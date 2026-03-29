@@ -23,7 +23,7 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-semibold text-foreground mb-4">Quick Links</h4>
             <div className="flex flex-col gap-2">
-              {["Home", "About", "Services", "Portfolio", "Contact"].map((link) => (
+              {["Home", "About", "Services", "Portfolio", "Careers", "Contact"].map((link) => (
                 <Link
                   key={link}
                   to={link === "Home" ? "/" : `/${link.toLowerCase()}`}
